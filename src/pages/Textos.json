@@ -1,0 +1,27 @@
+{
+    "tiposAtivo": "<b>Ativo: </b> Enquadra-se nesta situação o Servidor Efetivo que ingressou no Serviço Público após a criação da PREVES com remuneração inicial superior ao teto do RGPS.<br /><br /><b>Ativo Facultativo: </b>Enquadra-se nesta situação o Servidor Efetivo que ingressou no Serviço Público antes da criação da PREVES, independente de sua remuneração em relação ao teto do RGPS, <b>ou</b> o Servidor Efetivo que ingressou no Serviço Público após a criação da PREVES com remuneração inicial inferior ao teto do RGPS.<br /><br /><b>Participante CDT:</b> Enquadra-se nesta situação o servidor público estatutário ou celetista em cargo de comissão, designação temporária, ocupante de função de confiança ou emprego em fundação, sociedades de economia mista e empresas públicas do Estado.",
+    "remuneracaoInicial": "Remuneração inicial disposta na Tabela de Remuneração de seu cargo.",
+    "remuneracaoFinal": "Remuneração final disposta na Tabela de Remuneração de seu cargo.",
+    "taxaCrescimentoSalarial": "Taxa de Crescimento salarial -  vide Tabela de Progressão do respectivo cargo junto ao órgão de lotação.",
+    "taxaJurosReal": "Taxa de Juros Real é a expectativa de remuneração do capital investido.",
+
+    "percentualBasico": "Percentual de contribuição que possui contrapartida da Patrocinadora.",
+    "beneficioRisco": "A soma das contribuições básicas de risco podem somar até 1%, Percentual que possui contrapartida da Patrocinadora. Caso deseje contribuições adicionais selecione abaixo nos campos Invalidez e Pensão por Morte os percentuais desejados.",
+    "sobrevivencia": "O valor para o campo sobrevivência é de 1%, Percentual de que possui contrapartida da Patrocinadora. Podem ser optados adicionais de sobrevivência no campo “Sobrevivência” a seguir.",
+    "carregamentoContribuicaoBasica": "A taxa de carregamento equivale a 6% do valor contribuído e é destinada ao custeio das despesas administrativas do PREVES SE.",
+    
+    "percentualBasicoCDT": "Percentual de contribuição com custeio exclusivo do participante.",
+    "beneficioRiscoCDT": "A soma das contribuições básicas de risco podem somar até 1%. Caso deseje contribuições adicionais selecione abaixo nos campos Invalidez e Pensão por Morte os percentuais desejados.",
+    "sobrevivenciaCDT": "O valor para o campo sobrevivência é de 1%. Podem ser optados adicionais de sobrevivência no campo “Sobrevivência” a seguir.",
+    "carregamentoContribuicaoBasicaCDT": "A taxa de carregamento equivale a 6% do valor contribuído e é destinada ao custeio das despesas administrativas do Plano de Benefícios",
+    
+    "aposentadoriaAdicional": "Contribuição adicional para aposentadoria com custeio exclusivo do participante.",
+    "invalidezAdicional": "Contribuição adicional para invalidez com custeio exclusivo do participante.",
+    "pensaoMorteAdicional": "Contribuição adicional para Pensão por Morte com custeio exclusivo do participante.",
+    "sobrevivenciaAdicional": "Contribuição adicional para Sobrevivência com custeio exclusivo do participante.",
+    "carregamentoContribuicaoAdicional": "A taxa de carregamento equivale a 6% do valor adicional contribuído e é destinada ao custeio das despesas administrativas do PREVES SE.",
+    
+    "carregamentoContribuicaoAdicionalCDT": "A taxa de carregamento equivale a 6% do valor adicional contribuído e é destinada ao custeio das despesas administrativas do Plano de Benefícios."
+
+
+}
