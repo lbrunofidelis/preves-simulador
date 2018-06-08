@@ -61,30 +61,6 @@ export default class MasterPage extends React.Component {
             beneficioRiscoSoma: "0",
             contribuicaoSobrevivenciaDesabilitada: true,
 
-            // States Passo 3:
-            // States do Resultado da simulação
-            contribuicaoInicialAposentadoriaParticipante: 0,
-            contribuicaoInicialAposentadoriaPatrocinador: 0,
-            contribuicaoInicialInvalidezParticipante: 0,
-            contribuicaoInicialInvalidezPatrocinador: 0,
-            contribuicaoInicialPensaoMorteParticipante: 0,
-            contribuicaoInicialPensaoMortePatrocinador: 0,
-            contribuicaoInicialSobrevivenciaParticipante: 0,
-            contribuicaoInicialSobrevivenciaPatrocinador: 0,
-            carregamentoTotalParticipante: 0,
-            carregamentoTotalPatrocinador: 0,
-            contribuicaoInicialTotalAposentadoria: 0,
-            contribuicaoInicialTotalInvalidez: 0,
-            contribuicaoInicialTotalPensaoMorte: 0,
-            contribuicaoInicialTotalSobrevivencia: 0,
-            contribuicaoInicialTotalCarregamentoTotal: 0,
-            contribuicaoTotalParticipante: 0,
-            contribuicaoTotalPatrocinador: 0,
-            contribuicaoTotal: 0,
-            montanteAposentadoria: 0,
-            montanteInvalidez: 0,
-            montantePensaoMorte: 0,
-            montanteSobrevivencia: 0
         };
 
         this.setPassoAtivo = this.setPassoAtivo.bind(this);

@@ -90,7 +90,11 @@ export default class Passo3 extends React.Component {
             montanteAposentadoria: dados.montanteAposentadoria,
             montanteInvalidez: dados.montanteInvalidez,
             montantePensaoMorte: dados.montantePensaoMorte,
-            montanteSobrevivencia: dados.montanteSobrevivencia
+            montanteSobrevivencia: dados.montanteSobrevivencia,
+            beneficioMensalAposentadoria: dados.beneficioMensalAposentadoria,
+            beneficioMensalInvalidez: dados.beneficioMensalInvalidez,
+            beneficioMensalPensaoMorte: dados.beneficioMensalPensaoMorte,
+            beneficioMensalSobrevivencia: dados.beneficioMensalSobrevivencia
         })
     }
 
@@ -209,23 +213,23 @@ export default class Passo3 extends React.Component {
                             <tbody>
                                 <tr>
                                     <td>Aposentadoria</td>
-                                    <td><label>R$ {}</label></td>
-                                    <td><label>R$ {}</label></td>
+                                    <td><label>R$ {this.renderResultado(this.state.beneficioMensalAposentadoria)}</label></td>
+                                    <td><label>R$ {this.renderResultado(this.state.tipoAtivo === 'normal' ? this.state.beneficioMensalAposentadoria + this.state.rgps : this.state.beneficioMensalAposentadoria)}</label></td>
                                 </tr>
                                 <tr>
                                     <td>Benefício de risco - Invalidez</td>
-                                    <td><label>R$ {}</label></td>
-                                    <td><label>R$ {}</label></td>
+                                    <td><label>R$ {this.renderResultado(this.state.beneficioMensalInvalidez)}</label></td>
+                                    <td><label>R$ {this.renderResultado(this.state.tipoAtivo === 'normal' ? this.state.beneficioMensalInvalidez + this.state.rgps : this.state.beneficioMensalInvalidez)}</label></td>
                                 </tr>
                                 <tr>
                                     <td>Benefício de risco - Pensão por Morte</td>
-                                    <td><label>R$ {}</label></td>
-                                    <td><label>R$ {}</label></td>
+                                    <td><label>R$ {this.renderResultado(this.state.beneficioMensalPensaoMorte)}</label></td>
+                                    <td><label>R$ {this.renderResultado(this.state.tipoAtivo === 'normal' ? this.state.beneficioMensalPensaoMorte + this.state.rgps: this.state.beneficioMensalPensaoMorte)}</label></td>
                                 </tr>
                                 <tr>
                                     <td>Sobrevivência</td>
-                                    <td><label>R$ {}</label></td>
-                                    <td><label>R$ {}</label></td>
+                                    <td><label>R$ {this.renderResultado(this.state.beneficioMensalSobrevivencia)}</label></td>
+                                    <td><label>R$ {this.renderResultado(this.state.tipoAtivo === 'normal' ? this.state.beneficioMensalSobrevivencia + this.state.rgps : this.state.beneficioMensalSobrevivencia)}</label></td>
                                 </tr>
                             </tbody>
                         </table>
