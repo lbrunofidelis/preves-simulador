@@ -94,7 +94,8 @@ export default class Passo3 extends React.Component {
             beneficioMensalAposentadoria: dados.beneficioMensalAposentadoria,
             beneficioMensalInvalidez: dados.beneficioMensalInvalidez,
             beneficioMensalPensaoMorte: dados.beneficioMensalPensaoMorte,
-            beneficioMensalSobrevivencia: dados.beneficioMensalSobrevivencia
+            beneficioMensalSobrevivencia: dados.beneficioMensalSobrevivencia,
+            remuneracaoFinalCrescimentoBianual: dados.remuneracaoFinalCrescimentoBianual
         })
     }
 
@@ -247,15 +248,15 @@ export default class Passo3 extends React.Component {
                                 <tbody>
                                     <tr>
                                         <td>Remuneração final estimulada pelo Crescimento Bianual</td>
-                                        <td>R$ {}</td>
+                                        <td>R$ {this.renderResultado(this.state.remuneracaoFinalCrescimentoBianual)}</td>
                                     </tr>
                                     <tr>
                                         <td>Remuneração Máxima paga pelo RPPS/RGPS na aposentadoria</td>
-                                        <td>R$ {}</td>
+                                        <td>R$ {this.renderResultado(this.state.rgps)}</td>
                                     </tr>
                                     <tr>
                                         <td>Remuneração Adicional Desejada na Aposentadoria</td>
-                                        <td>R$ {}</td>
+                                        <td>R$ {this.renderResultado(this.state.remuneracaoFinalCrescimentoBianual - this.state.rgps)}</td>
                                     </tr>
                                 </tbody>
                             </table>
