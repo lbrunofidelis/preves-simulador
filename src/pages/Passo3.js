@@ -252,11 +252,11 @@ export default class Passo3 extends React.Component {
                                     </tr>
                                     <tr>
                                         <td>Remuneração Máxima paga pelo RPPS/RGPS na aposentadoria</td>
-                                        <td>R$ {this.renderResultado(this.state.rgps)}</td>
+                                        <td>{this.state.tipoAtivo === 'normal' ? "R$" + this.renderResultado(this.state.rgps) : "-"}</td>
                                     </tr>
                                     <tr>
                                         <td>Remuneração Adicional Desejada na Aposentadoria</td>
-                                        <td>R$ {this.renderResultado(this.state.remuneracaoFinalCrescimentoBianual - this.state.rgps)}</td>
+                                        <td>R$ {this.renderResultado(this.state.tipoAtivo === 'normal' ? this.state.remuneracaoFinalCrescimentoBianual - this.state.rgps : this.state.remuneracaoFinalCrescimentoBianual)}</td>
                                     </tr>
                                 </tbody>
                             </table>
