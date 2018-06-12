@@ -11,7 +11,7 @@ export default class MasterPage extends React.Component {
             // States Passo 1:
             nome: "",
             dataNascimento: "",
-            idade: "40",
+            idade: "50",
             idadeDecimal: "",
             tipoAtivo: "normal",
             idadeAposentadoria: "40",
