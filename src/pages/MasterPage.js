@@ -6,12 +6,12 @@ export default class MasterPage extends React.Component {
         super(props);
 
         this.state = {
-            passo: 3,
+            passo: 1,
 
             // States Passo 1:
             nome: "",
             dataNascimento: "",
-            idade: "50",
+            idade: "40",
             idadeDecimal: "",
             tipoAtivo: "normal",
             idadeAposentadoria: "40",
