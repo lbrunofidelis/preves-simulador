@@ -7,7 +7,7 @@ import { IndiceService } from "../services";
 
 var indiceService = new IndiceService();
 
-var codigoIndiceRGPS = "RGPS3";
+var codigoIndiceRGPS = "RGPS";
 
 const textos = require("./Textos");
 
