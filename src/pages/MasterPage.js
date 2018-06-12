@@ -6,7 +6,7 @@ export default class MasterPage extends React.Component {
         super(props);
 
         this.state = {
-            passo: 1,
+            passo: 3,
 
             // States Passo 1:
             nome: "",
