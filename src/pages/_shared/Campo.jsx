@@ -77,9 +77,7 @@ export default class Campo extends React.Component {
                                 </button>
                             </div>
                             <div className="modal-body">
-                                <p className="text-justify">
-                                    {renderHTML(this.props.textoModal)}
-                                </p>
+                                {renderHTML(this.props.textoModal)}
                             </div>
                             <div className="modal-footer">
                                 <button type="button" className="btn btn-secondary" onClick={() => this.toggleModal()}>Ok, entendi!</button>

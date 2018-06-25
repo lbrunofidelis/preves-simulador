@@ -20,6 +20,7 @@ export default class Passo2 extends React.Component {
         this.onBlurInput = this.onBlurInput.bind(this);
         this.calculaContribuicaoAdicional = this.calculaContribuicaoAdicional.bind(this);
         this.calculaTaxaAposentadoria = this.calculaTaxaAposentadoria.bind(this);
+        this.calculaTaxaContribuicao = this.calculaTaxaContribuicao.bind(this);
         this.renderContribuicaoPatrocinador = this.renderContribuicaoPatrocinador.bind(this);
         this.atualizarStatesPatrocinador = this.atualizarStatesPatrocinador.bind(this);
         this.desabilitaCamposSobrevivencia = this.desabilitaCamposSobrevivencia.bind(this);
@@ -99,7 +100,35 @@ export default class Passo2 extends React.Component {
 
         this.setState({
             carregamentoContribuicaoAdicional: soma.toFixed(2)
-        }, () => { this.calculaTaxaAposentadoria() });
+        }, () => { 
+            this.calculaTaxaContribuicao()
+            this.calculaTaxaAposentadoria()
+        });
+    }
+
+    calculaTaxaContribuicao() {
+        var contribuicoes = [];
+        var totalizadorTaxaContribuicao = 0;
+            
+        contribuicoes = {
+            percentualBasico: this.state.percentualBasicoParticipante,
+            invalidez: this.state.beneficioRiscoInvalidezParticipante,
+            pensaoMorte: this.state.beneficioRiscoPensaoMorteParticipante,
+            sobrevivencia: this.state.sobrevivenciaParticipante,
+            carregamentoContribuicaoBasica: this.state.carregamentoContribuicaoBasicaParticipante,
+            aposentadoriaAdicional: this.state.aposentadoriaAdicional
+        }
+
+        if(isNaN(contribuicoes.aposentadoriaAdicional)) {
+            contribuicoes.aposentadoriaAdicional = parseFloat(contribuicoes.aposentadoriaAdicional.replace(',', '.'));
+        }
+
+        totalizadorTaxaContribuicao = 1;
+
+        this.setState({
+            totalizadorTaxaContribuicao: totalizadorTaxaContribuicao.toFixed(2)
+        });
+
     }
 
     calculaTaxaAposentadoria() {
@@ -301,7 +330,7 @@ export default class Passo2 extends React.Component {
     render() {
         return (
             <div id="passo2" hidden={this.props.hidden}>
-                <h2 align="center">Ótimo {this.state.nome}! Agora vamos definir a sua contribuição para o Plano PREVES SE!</h2>
+                <h2 align="center">Ótimo {this.state.nome}! Agora vamos definir a sua contribuição para o Plano PREVES {this.state.tipoAtivo !== 'participanteCDT' ? "SE" : "CDT"}!</h2>
                 <br />
                 <div className="form-group row">
                     <div className="col-2 offset-5 text-center">
@@ -400,7 +429,7 @@ export default class Passo2 extends React.Component {
                     </div>
                 </Campo>
                 
-                <Campo id="invalidezAdicional" label="Invalidez" label2="(Risco de aceitação da seguradora)" usaBotaoAjuda textoModal={textos.invalidezAdicional}>
+                <Campo id="invalidezAdicional" label="Invalidez" labelSecundaria="(Risco de aceitação da seguradora)" usaBotaoAjuda textoModal={textos.invalidezAdicional}>
                     <div className="col-2">
                         <div className="input-group">
                             <input id="invalidezAdicional" name="invalidezAdicional" maxLength="6" className="form-control percent" placeholder="0,00" disabled={this.verificarValorMaximo(this.state.beneficioRiscoSoma, 1)} 
@@ -412,7 +441,7 @@ export default class Passo2 extends React.Component {
                     </div>
                 </Campo>
                 
-                <Campo id="pensaoMorteAdicional" label="Pensão por Morte" label2="(Risco de aceitação da seguradora)" usaBotaoAjuda textoModal={textos.pensaoMorteAdicional}>
+                <Campo id="pensaoMorteAdicional" label="Pensão por Morte" labelSecundaria="(Risco de aceitação da seguradora)" usaBotaoAjuda textoModal={textos.pensaoMorteAdicional}>
                     <div className="col-2">
                         <div className="input-group">
                             <input id="pensaoMorteAdicional" name="pensaoMorteAdicional" maxLength="6" className="form-control percent" placeholder="0,00" disabled={this.verificarValorMaximo(this.state.beneficioRiscoSoma, 1)} 
@@ -439,6 +468,11 @@ export default class Passo2 extends React.Component {
                 <Campo label="Carregamento contribuição Adicional" usaBotaoAjuda textoModal={this.state.tipoAtivo === 'normal' ? textos.carregamentoContribuicaoAdicional : textos.carregamentoContribuicaoAdicionalCDT}>
                     <div className="form-control-plaintext col-2 text-center">
                         {this.renderPercentual(this.state.carregamentoContribuicaoAdicional)}%
+                    </div>
+                </Campo>
+                <Campo label="Totalizador da Taxa de Contribuição">
+                    <div className="form-control-plaintext col-2 text-center">
+                        {this.renderPercentual(this.state.totalizadorTaxaContribuicao)}%
                     </div>
                 </Campo>
                 <Campo label="Totalizador da Taxa para Aposentadoria">

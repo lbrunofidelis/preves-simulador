@@ -33,8 +33,7 @@ export default class BotaoAjuda extends React.Component {
                                 </button>
                             </div>
                             <div className="modal-body">
-                                <p>{this.props.textoModal}</p>
-                                <p>{this.props.textoModal2}</p>
+                                {this.props.textoModal}
                             </div>
                             <div className="modal-footer">
                                 <button type="button" className="btn btn-secondary" onClick={() => this.toggleModal()}>Ok, entendi!</button>

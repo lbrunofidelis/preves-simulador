@@ -300,7 +300,7 @@ export default class Passo1 extends React.Component {
                             <label className="form-check-label" htmlFor="tipoAtivoFacultativo">Ativo Facultativo</label>
                         </div>
                         <div className="form-check">
-                            <input name="tipoAtivo" className="form-check-input" type="radio" id="tipoAtivoParticipante" onBlur={this.onBlurValidaRemuneracaoInicial.bind(this)} onChange={this.onChangeInput} value="participante"></input>
+                            <input name="tipoAtivo" className="form-check-input" type="radio" id="tipoAtivoParticipante" onBlur={this.onBlurValidaRemuneracaoInicial.bind(this)} onChange={this.onChangeInput} value="participanteCDT"></input>
                             <label className="form-check-label" htmlFor="tipoAtivoParticipante">Participante CDT</label>
                         </div>
                     </div>
