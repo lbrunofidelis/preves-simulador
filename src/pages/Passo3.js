@@ -1,17 +1,31 @@
 import React from 'react';
 import BotaoAjuda from "./_shared/BotaoAjuda";
+import Campo from "./_shared/Campo"
 import { SimNaoParticipanteService } from '../services';
 
-var simuladorService = new SimNaoParticipanteService();
+var service = new SimNaoParticipanteService();
 
 export default class Passo3 extends React.Component {
     constructor(props) {
         super(props);
         this.state = props.state;
 
+        this.handleInputChange = props.handleInputChange.bind(this);
         this.renderResultado = this.renderResultado.bind(this);
         this.novaSimulacao = this.novaSimulacao.bind(this);
+        this.onChangeInput = this.onChangeInput.bind(this);
+        this.enviarEmail = this.enviarEmail.bind(this);
+        this.emailValido = this.emailValido.bind(this);
+        this.telefoneValido = this.telefoneValido.bind(this);
+        this.renderizaErro = this.renderizaErro.bind(this);
+    }
 
+    /**
+     * @param {Object} event Evento enviado pelo componente.
+     * @description Método que atualiza o state do campo que disparou o evento ao alterar valor, chamando o método 'handleInputChange', que realiza um callback, caso tenha.
+     */
+    onChangeInput(event) {
+        this.handleInputChange(event);
     }
 
     onVisible(state) {
@@ -60,7 +74,7 @@ export default class Passo3 extends React.Component {
             carregamentoContribuicaoAdicional: state.carregamentoContribuicaoAdicional
         }
         
-        simuladorService.CalcularSimulacao(dados, (result) => {
+        service.CalcularSimulacao(dados, (result) => {
             this.mostrarResultado(result.data, this);
         }, (err) => {
             console.error(err);
@@ -122,6 +136,69 @@ export default class Passo3 extends React.Component {
         window.location.reload();
     }
 
+    /**
+     * @description Método que verifica se os campos estão corretamente preenchidos e envia o e-mail.
+     */
+    enviarEmail() {
+        var emailValido = this.emailValido();
+        var telefoneValido = this.telefoneValido();
+
+        // Envia-se o 'NOT' do valor válido pois o método que renderiza o erro checa se o valor é Inválido (não válido).
+        this.renderizaErro("erroEmail", !emailValido);
+        this.renderizaErro("erroTelefone", !telefoneValido);
+
+        if(emailValido && telefoneValido) {
+            alert("Dados ok! Enviando e-mail...");
+        }
+    }
+
+    /**
+     * @returns {boolean} Valor que representa se o e-mail é válido ou não.
+     * @description Método que valida o e-mail. Um e-mail válido deve ter: ao menos um caractere antes do '@', ao menos 3 caracteres no domínio (letra, ponto e caractere após o ponto),
+     * usuário e domínio não pode conter '@', usuário e domínio não pode conter espaço em branco, domínio deve conter ponto, a posição do primeiro ponto deve
+     * ser maior ou igual a 1 e a posição do último ponto deve ser menor que a posição do último caractere (pois o domínio deve finalizar com um caractere diferente
+     * de ponto.) 
+     */
+    emailValido() {
+        // usuario armazena toda a string antes do '@', e dominio armazena toda string após o '@'.
+        var usuario = this.state.email.substring(0, this.state.email.indexOf("@"));
+        var dominio = this.state.email.substring(this.state.email.indexOf("@") + 1, this.state.email.length);
+
+        var usuarioValido = (usuario.length >= 1) && (usuario.search(" ") === -1) && (usuario.search("@") === -1);
+        var dominioValido = (dominio.length >= 3) && (dominio.search(" ") === -1) && (dominio.search("@") === -1);
+        
+        var pontoPosicaoValida = (dominio.search(".") !== -1) && (dominio.indexOf(".") >= 1) && (dominio.lastIndexOf(".") < dominio.length - 1);
+
+        if(usuarioValido && dominioValido && pontoPosicaoValida) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * @returns {boolean} Valor que representa se o telefone é válido ou não.
+     * @description Método que checa se o telefone é válido. Para isso, a string deve conter 15 caracteres (onze números, dois parênteses, um espaço e um hífen (já contidos na máscara)).
+     */
+    telefoneValido() {
+        if(this.state.telefone.length === 15) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * @param {string} campoErro Valor que representa o state do erro a ser alterado. 
+     * @param {boolean} valor Valor a ser armazenado no state de erro.
+     * @description Método que altera o state de erro. Ao alterar o state de erro a mensagem é renderizada (ou deixa de ser mostrada caso já esteja renderizada).
+     */
+    renderizaErro(campoErro, valor) {
+        this.setState({
+            [campoErro]: valor
+        })
+    }
+
     render() {
         return (
             <div id="passo3" hidden={this.props.hidden}>
@@ -146,7 +223,7 @@ export default class Passo3 extends React.Component {
                                     <td><label>R$ {this.renderResultado(this.state.contribuicaoInicialAposentadoriaPatrocinador)}</label></td>
                                     <td><label>R$ {this.renderResultado(this.state.contribuicaoInicialTotalAposentadoria)}</label></td>
                                     <td><label>R$ {this.renderResultado(this.state.montanteAposentadoria)}</label></td>
-                                    <td><BotaoAjuda /></td>
+                                    <td></td>
                                 </tr>
 
                                 <tr>
@@ -155,7 +232,7 @@ export default class Passo3 extends React.Component {
                                     <td><label>R$ {this.renderResultado(this.state.contribuicaoInicialInvalidezPatrocinador)}</label></td>
                                     <td><label>R$ {this.renderResultado(this.state.contribuicaoInicialTotalInvalidez)}</label></td>
                                     <td><label>R$ {this.renderResultado(this.state.montanteInvalidez)}</label></td>
-                                    <td><BotaoAjuda /></td>
+                                    <td><BotaoAjuda textoModal="Sujeito a aceitação da Seguradora." /></td>
                                 </tr>
 
                                 <tr>
@@ -164,7 +241,7 @@ export default class Passo3 extends React.Component {
                                     <td><label>R$ {this.renderResultado(this.state.contribuicaoInicialPensaoMortePatrocinador)}</label></td>
                                     <td><label>R$ {this.renderResultado(this.state.contribuicaoInicialTotalPensaoMorte)}</label></td>
                                     <td><label>R$ {this.renderResultado(this.state.montantePensaoMorte)}</label></td>
-                                    <td><BotaoAjuda /></td>
+                                    <td><BotaoAjuda textoModal="Sujeito a aceitação da Seguradora." /></td>
                                 </tr>
 
                                 <tr>
@@ -173,7 +250,7 @@ export default class Passo3 extends React.Component {
                                     <td><label>R$ {this.renderResultado(this.state.contribuicaoInicialSobrevivenciaPatrocinador)}</label></td>
                                     <td><label>R$ {this.renderResultado(this.state.contribuicaoInicialTotalSobrevivencia)}</label></td>
                                     <td><label>R$ {this.renderResultado(this.state.montanteSobrevivencia)}</label></td>
-                                    <td><BotaoAjuda /></td>
+                                    <td></td>
                                 </tr>
 
                                 <tr>
@@ -182,7 +259,7 @@ export default class Passo3 extends React.Component {
                                     <td><label>R$ {this.renderResultado(this.state.carregamentoTotalPatrocinador)}</label></td>
                                     <td><label>R$ {this.renderResultado(this.state.contribuicaoInicialTotalCarregamentoTotal)}</label></td>
                                     <td>-</td>
-                                    <td><BotaoAjuda /></td>
+                                    <td></td>
                                 </tr>
 
                                 <tr>
@@ -191,7 +268,7 @@ export default class Passo3 extends React.Component {
                                     <td><label>R$ {this.renderResultado(this.state.contribuicaoTotalPatrocinador)}</label></td>
                                     <td><label>R$ {this.renderResultado(this.state.contribuicaoTotal)}</label></td>
                                     <td></td>
-                                    <td><BotaoAjuda /></td>
+                                    <td></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -267,6 +344,24 @@ export default class Passo3 extends React.Component {
                     <div className="row justify-content-center">
                         <button type="button" className="btn btn-lg btn-dark mr-3" onClick={() => this.props.setPassoAtivo(2, this.state)}>Voltar</button>
                         <button type="button" className="btn btn-lg btn-primary" onClick={() => this.novaSimulacao()}>Realizar nova Simulação</button>
+                    </div>
+                    <br />
+
+                    <div className="row justify-content-center">
+                        <h3>Entre em contato conosco!</h3>
+                    </div>
+                    <Campo id="email" label="E-mail" mensagemErro="Campo Inválido!" mostrarErro={this.state.erroEmail}>
+                        <div className="col-5">
+                            <input id="email" name="email" type="text" className="form-control" maxLength="80" placeholder="Insira seu e-mail" onChange={this.onChangeInput} value={this.state.email} />
+                        </div>
+                    </Campo>
+                    <Campo id="telefone" label="Telefone" mensagemErro="Campo Inválido!" mostrarErro={this.state.erroTelefone}>
+                        <div className="col-5">
+                            <input id="telefone" name="telefone" type="text" className="form-control telefone" maxLength="80" placeholder="(00) 00000-0000" onChange={this.onChangeInput} value={this.state.telefone} />
+                        </div>
+                    </Campo>
+                    <div className="row justify-content-center">
+                        <button type="button" className="btn btn-md btn-primary" onClick={() => this.enviarEmail()}>Enviar</button>
                     </div>
                 </div>
             </div>

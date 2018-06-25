@@ -54,6 +54,7 @@ export default class MasterPage extends React.Component {
             sobrevivenciaAdicional: "0",
             carregamentoContribuicaoAdicional: "0.00",
             totalizadorTaxaAposentadoria: "0.00",
+            totalizadorTaxaContribuicao: "0.00",
 
             // States de validação por Soma e valor Máx.
             beneficioRiscoInvalidezMax: "1.00",
@@ -61,6 +62,11 @@ export default class MasterPage extends React.Component {
             beneficioRiscoSoma: "0",
             contribuicaoSobrevivenciaDesabilitada: true,
 
+            // States Passo 3:
+            email: "",
+            telefone: "",
+            erroEmail: false,
+            erroTelefone: false
         };
 
         this.setPassoAtivo = this.setPassoAtivo.bind(this);
@@ -99,7 +105,7 @@ export default class MasterPage extends React.Component {
         // var self = this;
         this.setState({
             [name]: value
-        });
+        }, () => { console.log(name, ":", value) });
     }
 
     /**
