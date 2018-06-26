@@ -30,7 +30,7 @@ export default class Passo3 extends React.Component {
 
     onVisible(state) {
         this.setState(state);
-
+        console.log(this.state);
         if(state.aposentadoriaAdicional === '')
             state.aposentadoriaAdicional = '0,00';
 
@@ -361,7 +361,7 @@ export default class Passo3 extends React.Component {
                         </div>
                     </Campo>
                     <div className="row justify-content-center">
-                        <button type="button" className="btn btn-md btn-primary" onClick={() => this.enviarEmail()}>Enviar</button>
+                        <button type="button" className="btn btn-md btn-primary" onClick={() => this.enviarEmail()}>Enviar Resultado</button>
                     </div>
                 </div>
             </div>

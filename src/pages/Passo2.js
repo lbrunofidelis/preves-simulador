@@ -68,32 +68,22 @@ export default class Passo2 extends React.Component {
      * contribuição adicional.
      */
     calculaContribuicaoAdicional() {
-        var valores = {
-            aposentadoria: this.state.aposentadoriaAdicional,
-            invalidez: this.state.invalidezAdicional,
-            pensaoMorte: this.state.pensaoMorteAdicional,
-            sobrevivencia: this.state.sobrevivenciaAdicional
-        }
 
-        valores.aposentadoria = this.converteStringFloat(valores.aposentadoria);
-        valores.invalidez = this.converteStringFloat(valores.invalidez);
-        valores.pensaoMorte = this.converteStringFloat(valores.pensaoMorte);
-        valores.sobrevivencia = this.converteStringFloat(valores.sobrevivencia);
+        var aposentadoriaAdicional = this.converteStringFloat(this.state.aposentadoriaAdicional);
+        var invalidezAdicional = this.converteStringFloat(this.state.invalidezAdicional);
+        var pensaoMorteAdicional = this.converteStringFloat(this.state.pensaoMorteAdicional);
+        var sobrevivenciaAdicional = this.converteStringFloat(this.state.sobrevivenciaAdicional);
         
         // Checa se o número de entrada é NaN. Caso sim, o valor de entrada torna-se '0' para realização do cálculo.
-        if(isNaN(valores.aposentadoria))
-            valores.aposentadoria = 0;
+        aposentadoriaAdicional = this.pegarValorValido(aposentadoriaAdicional);
 
-        if(isNaN(valores.invalidez))
-            valores.invalidez = 0;
+        invalidezAdicional = this.pegarValorValido(invalidezAdicional);
 
-        if(isNaN(valores.pensaoMorte))
-            valores.pensaoMorte = 0;
+        pensaoMorteAdicional = this.pegarValorValido(pensaoMorteAdicional);
 
-        if(isNaN(valores.sobrevivencia))
-            valores.sobrevivencia = 0;
+        sobrevivenciaAdicional = this.pegarValorValido(sobrevivenciaAdicional);
 
-        var soma = valores.aposentadoria + valores.invalidez + valores.pensaoMorte + valores.sobrevivencia;
+        var soma = aposentadoriaAdicional + invalidezAdicional + pensaoMorteAdicional + sobrevivenciaAdicional;
         soma *= 0.06;
 
         this.setState({
@@ -104,54 +94,53 @@ export default class Passo2 extends React.Component {
         });
     }
 
+    pegarValorValido(valor) {
+        if(isNaN(valor))
+            return 0;
+        else
+            return valor;
+    }
+
+    calculaTaxaAposentadoria() {
+        var percentualBasico = this.state.percentualBasicoParticipante;
+        var invalidez = this.state.beneficioRiscoInvalidezParticipante;
+        var pensaoMorte = this.state.beneficioRiscoPensaoMorteParticipante;
+        var sobrevivencia = this.state.sobrevivenciaParticipante;
+        var carregamentoContribuicaoBasica = this.state.carregamentoContribuicaoBasicaParticipante;
+        var aposentadoriaAdicional = this.state.aposentadoriaAdicional;
+        
+        if(isNaN(aposentadoriaAdicional))
+            aposentadoriaAdicional = parseFloat(aposentadoriaAdicional.replace(',', '.'));
+
+        var totalizadorTaxaAposentadoria = 0;
+        totalizadorTaxaAposentadoria = (percentualBasico - invalidez - pensaoMorte - sobrevivencia - carregamentoContribuicaoBasica) + aposentadoriaAdicional * 0.94;
+        
+        this.setState({
+            totalizadorTaxaAposentadoria: totalizadorTaxaAposentadoria.toFixed(2)
+        });
+        
+    }
+    
     calculaTaxaContribuicao() {
-        var contribuicoes = [];
-        var totalizadorTaxaContribuicao = 0;
             
-        contribuicoes = {
-            percentualBasico: this.state.percentualBasicoParticipante,
-            invalidez: this.state.beneficioRiscoInvalidezParticipante,
-            pensaoMorte: this.state.beneficioRiscoPensaoMorteParticipante,
-            sobrevivencia: this.state.sobrevivenciaParticipante,
-            carregamentoContribuicaoBasica: this.state.carregamentoContribuicaoBasicaParticipante,
-            aposentadoriaAdicional: this.state.aposentadoriaAdicional
-        }
+        var percentualBasico = parseFloat(this.state.percentualBasicoParticipante);
+        var aposentadoriaAdicional = this.converteStringFloat(this.state.aposentadoriaAdicional);
+        var invalidezAdicional = this.converteStringFloat(this.state.invalidezAdicional);
+        var pensaoMorteAdicional = this.converteStringFloat(this.state.pensaoMorteAdicional);
+        var sobrevivenciaAdicional = this.converteStringFloat(this.state.sobrevivenciaAdicional);
 
-        if(isNaN(contribuicoes.aposentadoriaAdicional)) {
-            contribuicoes.aposentadoriaAdicional = parseFloat(contribuicoes.aposentadoriaAdicional.replace(',', '.'));
-        }
+        percentualBasico = this.pegarValorValido(percentualBasico);
+        aposentadoriaAdicional = this.pegarValorValido(aposentadoriaAdicional);
+        invalidezAdicional = this.pegarValorValido(invalidezAdicional);
+        pensaoMorteAdicional = this.pegarValorValido(pensaoMorteAdicional);
+        sobrevivenciaAdicional = this.pegarValorValido(sobrevivenciaAdicional);
 
-        totalizadorTaxaContribuicao = 1;
+        var totalizadorTaxaContribuicao = 0;
+        totalizadorTaxaContribuicao = percentualBasico + aposentadoriaAdicional + invalidezAdicional + pensaoMorteAdicional + sobrevivenciaAdicional;
 
         this.setState({
             totalizadorTaxaContribuicao: totalizadorTaxaContribuicao.toFixed(2)
         });
-
-    }
-
-    calculaTaxaAposentadoria() {
-        var contribuicoes = [];
-        var totalizadorTaxaAposentadoria = 0;
-            
-        contribuicoes = {
-            percentualBasico: this.state.percentualBasicoParticipante,
-            invalidez: this.state.beneficioRiscoInvalidezParticipante,
-            pensaoMorte: this.state.beneficioRiscoPensaoMorteParticipante,
-            sobrevivencia: this.state.sobrevivenciaParticipante,
-            carregamentoContribuicaoBasica: this.state.carregamentoContribuicaoBasicaParticipante,
-            aposentadoriaAdicional: this.state.aposentadoriaAdicional
-        }
-
-        if(isNaN(contribuicoes.aposentadoriaAdicional)) {
-            contribuicoes.aposentadoriaAdicional = parseFloat(contribuicoes.aposentadoriaAdicional.replace(',', '.'));
-        }
-
-        totalizadorTaxaAposentadoria = (contribuicoes.percentualBasico - contribuicoes.invalidez - contribuicoes.pensaoMorte - contribuicoes.sobrevivencia - contribuicoes.carregamentoContribuicaoBasica) + contribuicoes.aposentadoriaAdicional * 0.94;
-
-        this.setState({
-            totalizadorTaxaAposentadoria: totalizadorTaxaAposentadoria.toFixed(2)
-        });
-
     }
 
     /**
@@ -270,20 +259,17 @@ export default class Passo2 extends React.Component {
                 sobrevivenciaPatrocinador: this.state.sobrevivenciaParticipante,
                 carregamentoContribuicaoBasicaPatrocinador: this.state.carregamentoContribuicaoBasicaParticipante
             }, () => { 
-                console.log(this.state);
                 this.props.setPassoAtivo(3, this.state);
             });
-        }
 
-        if(this.state.tipoAtivo !== 'normal') { 
+        } else {
             this.setState({
                 percentualBasicoPatrocinador: 0.00,
                 beneficioRiscoInvalidezPatrocinador: 0.00,
                 beneficioRiscoPensaoMortePatrocinador: 0.00,
                 sobrevivenciaPatrocinador: 0.00,
                 carregamentoContribuicaoBasicaPatrocinador: 0.00
-            }, () => { 
-                console.log(this.state);
+            }, () => {
                 this.props.setPassoAtivo(3, this.state);
             });
         }
@@ -468,14 +454,14 @@ export default class Passo2 extends React.Component {
                         {this.renderPercentual(this.state.carregamentoContribuicaoAdicional)}%
                     </div>
                 </Campo>
-                <Campo label="Totalizador da Taxa de Contribuição">
-                    <div className="form-control-plaintext col-2 text-center">
-                        {this.renderPercentual(this.state.totalizadorTaxaContribuicao)}%
-                    </div>
-                </Campo>
                 <Campo label="Totalizador da Taxa para Aposentadoria">
                     <div className="form-control-plaintext col-2 text-center">
                         {this.renderPercentual(this.state.totalizadorTaxaAposentadoria)}%
+                    </div>
+                </Campo>
+                <Campo label="Totalizador da Taxa de Contribuição">
+                    <div className="form-control-plaintext col-2 text-center">
+                        {this.renderPercentual(this.state.totalizadorTaxaContribuicao)}%
                     </div>
                 </Campo>
                 <br/>
