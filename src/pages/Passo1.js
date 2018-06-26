@@ -31,8 +31,8 @@ export default class Passo1 extends React.Component {
     }
 
     /**
-     * @description Método do ciclo de vida do React. Chamado apenas uma vez, após a renderização do componente. Nesse contexto, busca o índice RGPS e armazena
-     * no state, caso tenha sucesso na busca.
+     * @description Método do ciclo de vida do React. Chamado apenas uma vez, após a renderização do componente. Busca o índice RGPS e armazena no state,
+     * caso tenha sucesso na busca.
      */
     componentDidMount() {
         window.scrollTo(0, 0);
@@ -45,6 +45,7 @@ export default class Passo1 extends React.Component {
             });
         }, (err) => {
             alert("Ocorreu um erro ao buscar o valor do índice!");
+            console.error(err);
         });
     }
 
@@ -61,7 +62,7 @@ export default class Passo1 extends React.Component {
     
     /**
      * @param {Object} event Evento enviado pelo componente.
-     * @description Método que atualiza o state do campo que disparou o evento ao alterar valor, chamando o método 'handleInputChange', que realiza um callback, caso tenha.
+     * @description Método que atualiza o state do campo que disparou o evento ao alterar valor, chamando o método 'handleInputChange', que realiza um callback, caso exista.
      */
     onChangeInput(event) {
         this.handleInputChange(event);
@@ -174,9 +175,9 @@ export default class Passo1 extends React.Component {
 
     /**
      * @param {string} valor Valor do campo no momento da validação (tentativa de mudar de passo).
-     * @param {string} campoErro State a ser alterado para o valor 'true' se o campo estiver em branco, ou 'false' se não.
-     * @returns {boolean} Valor que informa se o campo está em branco ou não para a renderização de uma mensagem de erro.
-     * @description Método que checa se o campo está vazio ou não, alterando o state
+     * @param {string} campoErro State a ser alterado para o valor 'true' se o campo estiver em branco, ou 'false' caso contrário.
+     * @returns {boolean} Valor que informa se o campo está em branco ou não para a renderização de uma mensagem de erro. A mensagem é renderizada quando o state de erro muda de valor lógico.
+     * @description Método que checa se o campo está vazio ou não, alterando o state.
      */
     validarCampoVazio(valor, campoErro) {
         var campoInvalido = (valor === "" || valor === 0);
@@ -235,7 +236,6 @@ export default class Passo1 extends React.Component {
             }
             else {
                 window.scrollTo(0, 300);
-                console.log(this.state);
             }
         });
     }

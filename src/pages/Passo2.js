@@ -28,7 +28,6 @@ export default class Passo2 extends React.Component {
     }
 
     onVisible(state) {
-
         this.setState(state, () => {
             this.atualizarStatesSobrevivencia();
         });
@@ -44,7 +43,6 @@ export default class Passo2 extends React.Component {
                 this.calculaContribuicaoAdicional();
                 this.calculaTaxaAposentadoria();
             })
-            // document.getElementById("sobrevivenciaAdicional").value = '0,00';
         }
     }
 

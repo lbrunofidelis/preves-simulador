@@ -72,7 +72,6 @@ export default function CalculaIdade(data) {
         anosIdade = 0;
 
     var idadeAnosMesesDias = { anos: anosIdade, meses: mesesIdade, dias: diasIdade, idadeDecimal: CalculaIdadeDecimal(anosIdade, mesesIdade, diasIdade) };
-    console.log(idadeAnosMesesDias);
     return idadeAnosMesesDias;
 }
 

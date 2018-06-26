@@ -48,10 +48,10 @@ export default class MasterPage extends React.Component {
             carregamentoContribuicaoBasicaPatrocinador: "0.00",
 
             // Contribuições Adicionais
-            aposentadoriaAdicional: "0",
-            invalidezAdicional: "0",
-            pensaoMorteAdicional: "0",
-            sobrevivenciaAdicional: "0",
+            aposentadoriaAdicional: "0.00",
+            invalidezAdicional: "0.00",
+            pensaoMorteAdicional: "0.00",
+            sobrevivenciaAdicional: "0.00",
             carregamentoContribuicaoAdicional: "0.00",
             totalizadorTaxaAposentadoria: "0.00",
             totalizadorTaxaContribuicao: "0.00",
@@ -105,7 +105,7 @@ export default class MasterPage extends React.Component {
         // var self = this;
         this.setState({
             [name]: value
-        }, () => { console.log(name, ":", value) });
+        });
     }
 
     /**
