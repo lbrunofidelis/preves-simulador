@@ -17,14 +17,19 @@
     "build-css": "sass -t compressed ./src/styles/main.scss ./public/css/main.css",
     "watch-css": "sass -t compressed --watch ./src/styles/main.scss:./public/css/main.css",
     "clean": "node ./node_modules/rimraf/bin.js ./public/css && node ./node_modules/mkdirp/bin/cmd.js ./public/css",
-    "start": "yarn build && react-scripts start",
+    "start": "yarn build:config && yarn build && react-scripts start",
     "build": "yarn clean && yarn build-css",
-    "build:prod": "react-scripts build",
+    "build:config": "./node_modules/.bin/cpy src/configs/config.dev.json src --rename=config.json",
+    "build:config-test": "./node_modules/.bin/cpy src/configs/config.test.json src --rename=config.json",
+    "build:config-prod": "./node_modules/.bin/cpy src/configs/config.prod.json src --rename=config.json",
+    "build:test": "yarn build:config-test && react-scripts build && ./node_modules/.bin/cpy build/* Z:/PrevesSimNaoParticipantesTestes",
+    "build:prod": "yarn build:config-prod && react-scripts build && ./node_modules/.bin/cpy build/* Z:/PrevesSimNaoParticipantes",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
   "devDependencies": {
     "cpx": "^1.5.0",
+    "cpy-cli": "^2.0.0",
     "mkdirp": "^0.5.1",
     "rimraf": "^2.6.2"
   }
