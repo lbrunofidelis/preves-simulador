@@ -22,8 +22,8 @@
     "build:config": "./node_modules/.bin/cpy src/configs/config.dev.json src --rename=config.json",
     "build:config-test": "./node_modules/.bin/cpy src/configs/config.test.json src --rename=config.json",
     "build:config-prod": "./node_modules/.bin/cpy src/configs/config.prod.json src --rename=config.json",
-    "build:test": "yarn build:config-test && react-scripts build && ./node_modules/.bin/cpy build/* Z:/PrevesSimNaoParticipantesTestes",
-    "build:prod": "yarn build:config-prod && react-scripts build && ./node_modules/.bin/cpy build/* Z:/PrevesSimNaoParticipantes",
+    "build:test": "yarn build:config-test && react-scripts build && ./node_modules/.bin/cpy **/* Z:/PrevesSimNaoParticipantesTestes --parents --cwd=build",
+    "build:prod": "yarn build:config-prod && react-scripts build && ./node_modules/.bin/cpy **/* Z:/PrevesSimNaoParticipantes --parents --cwd=build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
