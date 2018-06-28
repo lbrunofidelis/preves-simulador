@@ -18,6 +18,7 @@ export default class Passo3 extends React.Component {
         this.emailValido = this.emailValido.bind(this);
         this.telefoneValido = this.telefoneValido.bind(this);
         this.renderizaErro = this.renderizaErro.bind(this);
+        this.gerarCorpoEmail = this.gerarCorpoEmail.bind(this);
     }
 
     /**
@@ -30,7 +31,7 @@ export default class Passo3 extends React.Component {
 
     onVisible(state) {
         this.setState(state);
-        console.log(this.state);
+
         if(state.aposentadoriaAdicional === '')
             state.aposentadoriaAdicional = '0,00';
 
@@ -83,28 +84,28 @@ export default class Passo3 extends React.Component {
 
     mostrarResultado(dados, context) {
         context.setState({
-            contribuicaoInicialAposentadoriaParticipante: dados.contribuicaoInicialAposentadoriaParticipante,
-            contribuicaoInicialAposentadoriaPatrocinador: dados.contribuicaoInicialAposentadoriaPatrocinador,
-            contribuicaoInicialInvalidezParticipante: dados.contribuicaoInicialInvalidezParticipante,
-            contribuicaoInicialInvalidezPatrocinador: dados.contribuicaoInicialInvalidezPatrocinador,
-            contribuicaoInicialPensaoMorteParticipante: dados.contribuicaoInicialPensaoMorteParticipante,
-            contribuicaoInicialPensaoMortePatrocinador: dados.contribuicaoInicialPensaoMortePatrocinador,
-            contribuicaoInicialSobrevivenciaParticipante: dados.contribuicaoInicialSobrevivenciaParticipante,
-            contribuicaoInicialSobrevivenciaPatrocinador: dados.contribuicaoInicialSobrevivenciaPatrocinador,
-            carregamentoTotalParticipante: dados.carregamentoTotalParticipante,
-            carregamentoTotalPatrocinador: dados.carregamentoTotalPatrocinador,
-            contribuicaoInicialTotalAposentadoria: dados.contribuicaoInicialTotalAposentadoria,
-            contribuicaoInicialTotalInvalidez: dados.contribuicaoInicialTotalInvalidez,
-            contribuicaoInicialTotalPensaoMorte: dados.contribuicaoInicialTotalPensaoMorte,
-            contribuicaoInicialTotalSobrevivencia: dados.contribuicaoInicialTotalSobrevivencia,
-            contribuicaoInicialTotalCarregamentoTotal: dados.contribuicaoInicialTotalCarregamentoTotal,
-            contribuicaoTotalParticipante: dados.contribuicaoTotalParticipante,
-            contribuicaoTotalPatrocinador: dados.contribuicaoTotalPatrocinador,
-            contribuicaoTotal: dados.contribuicaoTotal,
-            montanteAposentadoria: dados.montanteAposentadoria,
-            montanteInvalidez: dados.montanteInvalidez,
-            montantePensaoMorte: dados.montantePensaoMorte,
-            montanteSobrevivencia: dados.montanteSobrevivencia,
+            contribuicaoInicialAposentadoriaParticipante: dados.contribuicaoInicialAposentadoriaParticipante.toFixed(2),
+            contribuicaoInicialAposentadoriaPatrocinador: dados.contribuicaoInicialAposentadoriaPatrocinador.toFixed(2),
+            contribuicaoInicialInvalidezParticipante: dados.contribuicaoInicialInvalidezParticipante.toFixed(2),
+            contribuicaoInicialInvalidezPatrocinador: dados.contribuicaoInicialInvalidezPatrocinador.toFixed(2),
+            contribuicaoInicialPensaoMorteParticipante: dados.contribuicaoInicialPensaoMorteParticipante.toFixed(2),
+            contribuicaoInicialPensaoMortePatrocinador: dados.contribuicaoInicialPensaoMortePatrocinador.toFixed(2),
+            contribuicaoInicialSobrevivenciaParticipante: dados.contribuicaoInicialSobrevivenciaParticipante.toFixed(2),
+            contribuicaoInicialSobrevivenciaPatrocinador: dados.contribuicaoInicialSobrevivenciaPatrocinador.toFixed(2),
+            carregamentoTotalParticipante: dados.carregamentoTotalParticipante.toFixed(2),
+            carregamentoTotalPatrocinador: dados.carregamentoTotalPatrocinador.toFixed(2),
+            contribuicaoInicialTotalAposentadoria: dados.contribuicaoInicialTotalAposentadoria.toFixed(2),
+            contribuicaoInicialTotalInvalidez: dados.contribuicaoInicialTotalInvalidez.toFixed(2),
+            contribuicaoInicialTotalPensaoMorte: dados.contribuicaoInicialTotalPensaoMorte.toFixed(2),
+            contribuicaoInicialTotalSobrevivencia: dados.contribuicaoInicialTotalSobrevivencia.toFixed(2),
+            contribuicaoInicialTotalCarregamentoTotal: dados.contribuicaoInicialTotalCarregamentoTotal.toFixed(2),
+            contribuicaoTotalParticipante: dados.contribuicaoTotalParticipante.toFixed(2),
+            contribuicaoTotalPatrocinador: dados.contribuicaoTotalPatrocinador.toFixed(2),
+            contribuicaoTotal: dados.contribuicaoTotal.toFixed(2),
+            montanteAposentadoria: dados.montanteAposentadoria.toFixed(2),
+            montanteInvalidez: dados.montanteInvalidez.toFixed(2),
+            montantePensaoMorte: dados.montantePensaoMorte.toFixed(2),
+            montanteSobrevivencia: dados.montanteSobrevivencia.toFixed(2),
             beneficioMensalAposentadoria: dados.beneficioMensalAposentadoria,
             beneficioMensalInvalidez: dados.beneficioMensalInvalidez,
             beneficioMensalPensaoMorte: dados.beneficioMensalPensaoMorte,
@@ -147,8 +148,17 @@ export default class Passo3 extends React.Component {
         this.renderizaErro("erroEmail", !emailValido);
         this.renderizaErro("erroTelefone", !telefoneValido);
 
+        var dadosEmail = {
+            Destinatario: this.state.email,
+            Assunto: "Resultados Simulador Não Participantes",
+            Corpo: ""
+        }
+        
         if(emailValido && telefoneValido) {
-            alert("Dados ok! Enviando e-mail...");
+            dadosEmail.Corpo = this.gerarCorpoEmail();
+            service.EnviarEmail(dadosEmail, () => {
+                this.setState({emailEnviado: true});
+            }, (err) => console.error(err));
         }
     }
 
@@ -197,6 +207,87 @@ export default class Passo3 extends React.Component {
         this.setState({
             [campoErro]: valor
         })
+    }
+
+    /**
+     * @returns {string} Corpo do e-mail com os dados do usuário e os resultados gerados pelo simulador.
+     * @description Método que gera a mensagem do e-mail a partir dos states.
+     */
+    gerarCorpoEmail() {
+        var dataNascimento = document.getElementById("dataNascimento").value;
+        var remuneracaoAdicional = this.state.remuneracaoFinalCrescimentoBianual - this.state.rgps;
+        var rgps = this.state.rgps;
+        if(this.state.tipoAtivo !== 'normal')
+            rgps = 0;
+
+        var mensagem = "Dados pessoais do Não Participante:<br>" +
+        "Nome: " + this.state.nome + "<br>" + 
+        "Data de nascimento: " + dataNascimento + "<br>" +
+        "Idade: " + this.state.idadeDecimal.toFixed(2) + "<br>" +
+        "Telefone: " + this.state.telefone + "<br>" + 
+        "E-mail: " + this.state.email + "<br><br>" + 
+
+        "Dados de entrada do Não Participante no Simulador: <br>" + 
+        "Tipo de Ativo: " + this.state.tipoAtivo + "<br>" +
+        "Idade de aposentadoria: " + this.state.idadeAposentadoria + " anos<br>" +
+        "Tempo de aposentadoria: " + this.state.tempoAposentadoria + " anos<br>" +
+        "Tempo de sobrevivência: " + this.state.tempoSobrevivencia + " anos<br>" +
+        "Remuneração inicial: R$ " + this.state.remuneracaoInicial + "<br>" +
+        "Remuneração final: R$ " + this.state.remuneracaoFinal + "<br>" +
+        "Taxa de crescimento salarial: " + this.state.taxaCrescimentoSalarial + "% a cada dois anos<br>" +
+        "Taxa de juros real: " + this.state.taxaJurosReal + "%<br>" +
+        "Percentual Básico do Participante: " + this.state.percentualBasicoParticipante + "%<br>" +
+        "Percentual Básico do Patrocinador: " + this.state.percentualBasicoPatrocinador + "%<br>" +
+        "Benefício de Risco por Invalidez do Participante: " + this.state.beneficioRiscoInvalidezParticipante + "%<br>" + 
+        "Benefício de Risco por Invalidez do Patrocinador: " + this.state.beneficioRiscoInvalidezPatrocinador + "%<br>" + 
+        "Benefício de Risco por Pensão por Morte do Participante: " + this.state.beneficioRiscoPensaoMorteParticipante + "%<br>" + 
+        "Benefício de Risco por Pensão por Morte do Patrocinador: " + this.state.beneficioRiscoPensaoMortePatrocinador + "%<br>" + 
+        "Sobrevivência do Participante: " + this.state.sobrevivenciaParticipante + "%<br>" + 
+        "Sobrevivência do Patrocinador: " + this.state.sobrevivenciaPatrocinador + "%<br>" + 
+        "Carregamento Contribuição Básica do Participante: " + this.state.carregamentoContribuicaoBasicaParticipante + "%<br>" + 
+        "Carregamento Contribuição Básica do Patrocinador: " + this.state.carregamentoContribuicaoBasicaPatrocinador + "%<br>" + 
+        "Contribuição Adicional - Aposentadoria: " + this.state.aposentadoriaAdicional + "%<br>" +
+        "Contribuição Adicional - Invalidez: " + this.state.invalidezAdicional + "%<br>" +
+        "Contribuição Adicional - Pensão por Morte: " + this.state.pensaoMorteAdicional + "%<br>" +
+        "Contribuição Adicional - Sobrevivência: " + this.state.sobrevivenciaAdicional + "%<br>" +
+        "Carregamento Contribuição Adicional: " + this.state.carregamentoContribuicaoAdicional + "%<br>" +
+        "Totalizador da taxa para aposentadoria: " + this.state.totalizadorTaxaAposentadoria + "%<br><br><br>" + 
+
+        "Resultados gerados pelo Simulador:<br><br>" + 
+        "Valores das Contribuições Iniciais: <br>" + 
+        "Aposentadoria - Contribuição Inicial Participante: R$ " + this.state.contribuicaoInicialAposentadoriaParticipante + "<br>" +
+        "Benefício de Risco por Invalidez - Contribuição Inicial Participante: R$ " + this.state.contribuicaoInicialInvalidezParticipante + "<br>" + 
+        "Benefício de Risco por Pensão por Morte - Contribuição Inicial Participante: R$ " + this.state.contribuicaoInicialPensaoMorteParticipante + "<br>" + 
+        "Sobrevivência - Contribuição Inicial Participante: R$ " + this.state.contribuicaoInicialSobrevivenciaParticipante + "<br>" + 
+        "Carregamento Total - Contribuição Inicial Participante: R$ " + this.state.carregamentoTotalParticipante + "<br>" + 
+        "Contribuição Inicial Participante - Contribuição Total: R$ " + this.state.contribuicaoTotalParticipante + "<br><br>" + 
+
+        "Aposentadoria - Contribuição Inicial Patrocinador: R$ " + this.state.contribuicaoInicialAposentadoriaPatrocinador + "<br>" +
+        "Benefício de Risco por Invalidez - Contribuição Inicial Patrocinador: R$ " + this.state.contribuicaoInicialInvalidezPatrocinador + "<br>" + 
+        "Benefício de Risco por Pensão por Morte - Contribuição Inicial Patrocinador: R$ " + this.state.contribuicaoInicialPensaoMortePatrocinador + "<br>" + 
+        "Sobrevivência - Contribuição Inicial Patrocinador: R$ " + this.state.contribuicaoInicialSobrevivenciaPatrocinador + "<br>" + 
+        "Carregamento Total - Contribuição Inicial Patrocinador: R$ " + this.state.carregamentoTotalPatrocinador + "<br>" + 
+        "Contribuição Inicial Patrocinador - Contribuição Total: R$ " + this.state.contribuicaoTotalPatrocinador + "<br><br>" +
+        "CONTRIBUIÇÃO INICIAL TOTAL: R$ " + this.state.contribuicaoTotal + "<br><br>" +
+
+        "Valores dos Montantes Acumulados:<br>" + 
+        "Aposentadoria: R$ " + this.state.montanteAposentadoria + "<br>" +
+        "Benefício de Risco - Invalidez: R$ " + this.state.montanteInvalidez + "<br>" + 
+        "Benefício de Risco - Pensão por Morte: R$ " + this.state.montantePensaoMorte + "<br>" + 
+        "Sobrevivência: R$ " + this.state.montanteSobrevivencia + "<br><br>" + 
+        
+        "Valores do Benefício Mensal Simulado: <br>" + 
+        "Aposentadoria: R$ " + this.state.beneficioMensalAposentadoria.toFixed(2) + "<br>" +
+        "Benefício de Risco - Invalidez: R$ " + this.state.beneficioMensalInvalidez.toFixed(2) + "<br>" + 
+        "Benefício de Risco - Pensão por Morte: R$ " + this.state.beneficioMensalPensaoMorte.toFixed(2) + "<br>" + 
+        "Sobrevivência: R$ " + this.state.beneficioMensalSobrevivencia.toFixed(2) + "<br><br>" + 
+
+        "Outras Informações: <br>" + 
+        "Remuneração Final estipulada pelo Crescimento Bianual: R$ " + this.state.remuneracaoFinalCrescimentoBianual.toFixed(2) + "<br>" + 
+        "Remuneração Máxima paga pelo RPPS/RGPS na aposentadoria: R$ " + rgps + "<br>" +
+        "Remuneração Adicional Desejada na Aposentadoria: R$ " + remuneracaoAdicional.toFixed(2);
+
+        return mensagem;
     }
 
     render() {
@@ -329,7 +420,7 @@ export default class Passo3 extends React.Component {
                                     </tr>
                                     <tr>
                                         <td>Remuneração Máxima paga pelo RPPS/RGPS na aposentadoria</td>
-                                        <td>{this.state.tipoAtivo === 'normal' ? "R$" + this.renderResultado(this.state.rgps) : "-"}</td>
+                                        <td>{this.state.tipoAtivo === 'normal' ? "R$ " + this.renderResultado(this.state.rgps) : "-"}</td>
                                     </tr>
                                     <tr>
                                         <td>Remuneração Adicional Desejada na Aposentadoria</td>
@@ -347,21 +438,41 @@ export default class Passo3 extends React.Component {
                     </div>
                     <br />
 
-                    <div className="row justify-content-center">
-                        <h3>Entre em contato conosco!</h3>
-                    </div>
-                    <Campo id="email" label="E-mail" mensagemErro="Campo Inválido!" mostrarErro={this.state.erroEmail}>
-                        <div className="col-5">
-                            <input id="email" name="email" type="text" className="form-control" maxLength="80" placeholder="Insira seu e-mail" onChange={this.onChangeInput} value={this.state.email} />
+                </div>
+                <div className="row">
+                    <div className="col-lg-12">
+                        <div className="card">
+                        
+                        <div className="card-header">
+                            <div className="row justify-content-center">
+                                <h3>Entre em contato conosco!</h3>
+                            </div>
                         </div>
-                    </Campo>
-                    <Campo id="telefone" label="Telefone" mensagemErro="Campo Inválido!" mostrarErro={this.state.erroTelefone}>
-                        <div className="col-5">
-                            <input id="telefone" name="telefone" type="text" className="form-control telefone" maxLength="80" placeholder="(00) 00000-0000" onChange={this.onChangeInput} value={this.state.telefone} />
+
+                            <div className="card-body">
+                                <Campo id="email" label="Seu e-mail:" mensagemErro="Campo Inválido!" mostrarErro={this.state.erroEmail}>
+                                    <div className="col-5">
+                                        <input id="email" name="email" type="text" className="form-control" maxLength="80" onChange={this.onChangeInput} value={this.state.email} />
+                                    </div>
+                                </Campo>
+                                <Campo id="telefone" label="Seu telefone:" mensagemErro="Campo Inválido!" mostrarErro={this.state.erroTelefone}>
+                                    <div className="col-5">
+                                        <input id="telefone" name="telefone" type="text" className="form-control telefone" maxLength="80" onChange={this.onChangeInput} value={this.state.telefone} />
+                                    </div>
+                                </Campo>
+                                <div className="row justify-content-center">
+                                    <button type="button" className="btn btn-md btn-primary" onClick={() => this.enviarEmail()}>Enviar Resultado</button>
+                                </div>
+                            </div>
+                            <div className="d-flex justify-content-center">
+                                {this.state.emailEnviado &&
+                                    <div className="text text-primary" role="alert">
+                                        <i className="fas fa-check" />&nbsp;
+                                        E-mail enviado com sucesso!
+                                    </div>
+                                }
+                            </div>
                         </div>
-                    </Campo>
-                    <div className="row justify-content-center">
-                        <button type="button" className="btn btn-md btn-primary" onClick={() => this.enviarEmail()}>Enviar Resultado</button>
                     </div>
                 </div>
             </div>

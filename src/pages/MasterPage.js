@@ -66,7 +66,8 @@ export default class MasterPage extends React.Component {
             email: "",
             telefone: "",
             erroEmail: false,
-            erroTelefone: false
+            erroTelefone: false,
+            emailEnviado: false
         };
 
         this.setPassoAtivo = this.setPassoAtivo.bind(this);
